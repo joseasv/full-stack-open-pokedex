@@ -23,13 +23,20 @@ const App = () => {
     return <ErrorMessage error={error} />
   }
 
-  let next = null
-  let previous = null
+  let next = undefined
+  let previous = undefined
 
   if (match && match.params) {
     const pokemonId = pokemonList.find(({ name }) => name === match.params.name).id
-    previous = pokemonList.find(({ id }) => id === pokemonId - 1)
-    next = pokemonList.find(({ id }) => id === pokemonId + 1)
+    console.log('pokemonId ', pokemonId)
+    if (pokemonId - 1 >= 0) {
+      previous = pokemonList.find(({ id }) => id === pokemonId - 1)
+    }
+
+    if (pokemonId + 1 < pokemonList.length) {
+      next = pokemonList.find(({ id }) => id === pokemonId + 1)
+    }
+
   }
 
   return (
