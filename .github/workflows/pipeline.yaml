@@ -42,7 +42,6 @@ jobs:
           clear_cache: true # Optional: Clear Render's build cache
           wait_deploy: true
       - name: Bump version and push tag
-          uses: anothrNick/github-tag-action@1.71.0
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+        uses: anothrNick/github-tag-action@1.71.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
