@@ -14,7 +14,6 @@ const mapResults = ({ results }) =>
   }))
 
 const App = () => {
-  // lines for testing the pull request
   const match = useMatch('/pokemon/:name')
 
   const {
