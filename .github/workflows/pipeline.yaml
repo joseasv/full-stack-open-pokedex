@@ -1,5 +1,7 @@
 name: Deployment pipeline
 
+CONDITION: ${{ contains(join(toJson(github.event.commits.*.message)), '#skip')  }}
+
 on:
   push:
     branches:
@@ -35,7 +37,7 @@ jobs:
           path: playwright-report/
           retention-days: 30
       - uses: JorgeLNJunior/render-deploy@v1.4.5
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && env.CONDITION == 'false' }}
         with:
           service_id: ${{ secrets.RENDER_SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
