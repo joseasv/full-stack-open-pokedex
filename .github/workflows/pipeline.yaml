@@ -44,6 +44,20 @@ jobs:
           api_key: ${{ secrets.RENDER_API_KEY }}
           clear_cache: true # Optional: Clear Render's build cache
           wait_deploy: true
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1.0.4
+          if: success()
+          with:
+            severity: info
+            details: Test Succeeded!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Failure
+          uses: rjstone/discord-webhook-notify@v1.0.4
+          if: failure()
+          with:
+            severity: error
+            details: Test Failed!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
     needs: [simple_deployment_pipeline]
