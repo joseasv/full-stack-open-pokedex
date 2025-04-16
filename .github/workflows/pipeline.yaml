@@ -49,6 +49,7 @@ jobs:
       contents: write
     steps:
       - name: Bump version and push tag
+        uses: actions/checkout@v4
         uses: anothrNick/github-tag-action@1.71.0
         if: ${{ github.event_name == 'push' }}
         env:
