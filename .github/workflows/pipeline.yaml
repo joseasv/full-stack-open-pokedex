@@ -45,19 +45,20 @@ jobs:
           clear_cache: true # Optional: Clear Render's build cache
           wait_deploy: true
       - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1.0.4
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@08d9328877d6954120eef2b07abbc79249bb6210
         if: ${{ success() }}
         with:
-          severity: info
-          details: Test Succeeded!
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+
       - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v1.0.4
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@08d9328877d6954120eef2b07abbc79249bb6210
         if: ${{ failure() }}
         with:
-          severity: error
-          details: Test Failed!
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} build has failed.'
 
   tag_release:
     needs: [simple_deployment_pipeline]
