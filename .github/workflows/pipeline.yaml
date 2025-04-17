@@ -45,20 +45,22 @@ jobs:
           clear_cache: true # Optional: Clear Render's build cache
           wait_deploy: true
       - name: Test Success
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@08d9328877d6954120eef2b07abbc79249bb6210
+        uses: sarisia/actions-status-discord@v1.15.3
         if: ${{ success() }}
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          title: "Deploy successful"
+          color: 0x00ff00
 
       - name: Test Failure
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@08d9328877d6954120eef2b07abbc79249bb6210
+        uses: sarisia/actions-status-discord@v1.15.3
         if: ${{ failure() }}
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} build has failed.'
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          title: "Build failed"
+          color: 0xff0000
 
   tag_release:
     needs: [simple_deployment_pipeline]
